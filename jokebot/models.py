@@ -14,5 +14,6 @@ class Joke(models.Model):
 class Message(models.Model):
 	message_text = models.CharField(max_length=200)
 	message_nametag = models.CharField(max_length=50)
+	message_date = models.DateTimeField('date sent', auto_now_add=True)
 	def __str__(self):
 		return "\'" + self.message_text + "\'" +  " - " + self.message_nametag
