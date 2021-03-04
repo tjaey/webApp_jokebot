@@ -10,3 +10,9 @@ class Joke(models.Model):
 	punchline_text = models.CharField(max_length=200)
 	def __str__(self):
 		return self.setup_text + " - " + self.punchline_texts
+
+class Message(models.Model):
+	message_text = models.CharField(max_length=200)
+	message_nametag = models.CharField(max_length=50)
+	def __str__(self):
+		return "\'" + self.message_text + "\'" +  " - " + self.message_nametag
