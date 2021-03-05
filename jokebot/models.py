@@ -18,3 +18,6 @@ class Message(models.Model):
 	def __str__(self):
 		return "\'" + self.message_text + "\'" +  " - " + self.message_nametag
 
+class JokeBotAI(models.Model):
+	greeting = models.ForeignKey(Greeting, on_delete=models.CASCADE)
+
