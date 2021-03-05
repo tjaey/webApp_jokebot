@@ -2,6 +2,14 @@ html {
   box-sizing: border-box;
 }
 
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -27,6 +35,8 @@ body {
 
 .menu {
   display: flex;
+  width: 100%;
+  height: 50px;
   padding: 10px;
   background: #eee;
   color: #666;
@@ -34,6 +44,8 @@ body {
 
 
 .chat {
+  overflow-y: auto;
+  padding: 10px;
   list-style: none;
   margin-top: 10px;
   margin-bottom: 10px;
