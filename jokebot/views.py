@@ -7,3 +7,14 @@ def index(request):
 	message_list = Message.objects.order_by('message_date')
 	context = {'message_list': message_list}
 	return render(request, 'jokebot/index.html', context)
+
+def submitMessage(request):
+	new_message = request.POST['new_message']
+	m = Message(message_text=new_message, message_nametag="you")
+	m.save()
+	message_list = Message.objects.order_by('message_date')
+	context = {'message_list': message_list}
+	return render(request, 'jokebot/index.html', context)
+
+def success(request):
+	return HttpResponse("action was a success.")

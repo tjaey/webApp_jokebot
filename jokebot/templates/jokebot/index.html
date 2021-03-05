@@ -24,8 +24,9 @@
                 {% endif %}
                 </ol>
             </div>
-            <form class="response">
-              <input class="textarea" type="text" placeholder="Type here"/>
+            <form class="response" action="{% url 'jokebot:submitMessage' %}" method="post">
+              {% csrf_token %}  
+              <input class="textarea" type="text" name="new_message" placeholder="Type here"/>
               <input class="submitbtn" type="submit" value="Submit">
             </form>
         </div>
