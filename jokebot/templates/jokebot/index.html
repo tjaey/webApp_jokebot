@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Jokebot 1.0</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'jokebot/jokebot.css' %}">
-</head>
-<body>
-<div class="app-container">
- <div class="menu">
-   <div class="appname">Jokebot 1.0</div>
- </div>
- <div>
-  <ol class="chat">
-  <li class="msgbox">
-    <div class="nametag">Jokebot</div>
-    <div class="msg"><p>Hello, my programmer didn't teach me any jokes yet, do you know any?</p></div>
-  </li>
-  <li class="msgbox">
-    <div class="nametag">You</div>
-    <div class="msg"><p>Okay, I can tell you a joke</p></div>
-   </li>
-   </ol>
-  </div>
-    <form class="response">
-      <input class="textarea" type="text" placeholder="Type here"/>
-      <input class="submitbtn" type="submit" value="Submit">
-    </form>
-</div>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Jokebot 1.0</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'jokebot/jokebot.css' %}">
+    </head>
+    <body>
+        <div class="app-container">
+            <div class="menu">
+                <div class="appname">Jokebot 1.0</div>
+            </div>
+            <div>
+                <ol class="chat">
+                {% if message_list %}
+                    {% for message in message_list %}
+                    <li class="msgbox">
+                        <div class="nametag">{{ message.message_nametag }}</div>
+                        <div class="msg"><p>{{ message.message_text }}</p></div>
+                    </li>
+                    {% endfor %}    
+                {% endif %}
+                </ol>
+            </div>
+            <form class="response">
+              <input class="textarea" type="text" placeholder="Type here"/>
+              <input class="submitbtn" type="submit" value="Submit">
+            </form>
+        </div>
+    </body>
 </html>

@@ -4,4 +4,6 @@ from django.http import HttpResponse
 from .models import Message
 
 def index(request):
-	return render(request, 'jokebot/index.html')
+	message_list = Message.objects.order_by('message_date')
+	context = {'message_list': message_list}
+	return render(request, 'jokebot/index.html', context)
