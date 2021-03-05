@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 from .models import Message
 
@@ -13,9 +14,7 @@ def submitMessage(request):
 		new_message = request.POST['new_message']
 		m = Message(message_text=new_message, message_nametag="you")
 		m.save()
-	message_list = Message.objects.order_by('message_date')
-	context = {'message_list': message_list}
-	return render(request, 'jokebot/index.html', context)
+	return HttpResponseRedirect(reverse('jokebot:index'))
 
 def success(request):
 	return HttpResponse("action was a success.")
