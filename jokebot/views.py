@@ -17,13 +17,14 @@ def submitMessage(request):
 		return generateResponse(request, m)
 	return HttpResponseRedirect(reverse('jokebot:index'))
 
-
 def success(request):
 	return HttpResponse("action was a success.")
 
 def generateResponse(request, Message):
 	if(Message.message_text == "tell me a joke"):
 		return tellJoke(request)
+	elif(Message.message_text == 'knock knock'):
+		return respondToJoke(request)
 	else:
 		return sendGreetingGeneric(request)
 
@@ -38,6 +39,12 @@ def tellJoke(request):
 	except:
 		return sendGreetingNoJoke(request)
 
+def respondToJoke(request):
+	new_message = "Who's there?"
+	m = Message(message_text=new_message, message_nametag="Jokebot")
+	m.save()
+	return HttpResponseRedirect(reverse('jokebot:index')) 
+
 def sendGreetingNoJoke(request):
 	new_message = "Hi, I'm Jokebot 1.0! I don't know any jokes yet, would you like to tell me one?"
 	m = Message(message_text=new_message, message_nametag="Jokebot")
@@ -49,3 +56,6 @@ def sendGreetingGeneric(request):
 	m = Message(message_text=new_message, message_nametag="Jokebot")
 	m.save()
 	return HttpResponseRedirect(reverse('jokebot:index')) 
+
+
+
