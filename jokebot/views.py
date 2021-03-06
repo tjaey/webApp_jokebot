@@ -20,13 +20,21 @@ def submitMessage(request):
 def success(request):
 	return HttpResponse("action was a success.")
 
+def error(request):
+	return HttpResponse("action was an error.")
+
 def generateResponse(request, Message):
-	if(Message.message_text == "tell me a joke"):
-		return tellJoke(request)
-	elif(Message.message_text == 'knock knock'):
-		return respondToJoke(request)
-	else:
-		return sendGreetingGeneric(request)
+	try:
+		if(request.session['knock_knock']):
+			return learnSetup(request, Message)
+		elif(Message.message_text == 'knock knock'):
+			return learnNewJoke(request)
+		elif(Message.message_text == "tell me a joke"):
+			return tellJoke(request)
+		else:
+			return sendGreetingGeneric(request)
+	except:
+		return sendGreetingError(request)
 
 def tellJoke(request):
 	try:
@@ -39,11 +47,28 @@ def tellJoke(request):
 	except:
 		return sendGreetingNoJoke(request)
 
-def respondToJoke(request):
-	new_message = "Who's there?"
+def learnSetup(request, Message):
+	request.session['setup'] = True
+	request.session['setup_text'] = Message.message_text
+	new_message = Message.message_text+" who?"
+	m = Message(message_text=new_message, message_nametag="Jokebot")
+	m.save()
+	return HttpResponseRedirect(reverse('jokebot:index'))
+
+def learnPunchline(request, Message):
+	request.session['knock_knock'] = False
+	request.session['setup'] = False
+	new_message = "Hahaha! Thank you! That was a great joke!"
 	m = Message(message_text=new_message, message_nametag="Jokebot")
 	m.save()
 	return HttpResponseRedirect(reverse('jokebot:index')) 
+
+def learnNewJoke(request):
+	new_message = "Who's there?"
+	m = Message(message_text=new_message, message_nametag="Jokebot")
+	m.save()
+	request.session['knock_knock'] = True
+	return HttpResponseRedirect(reverse('jokebot:index'))
 
 def sendGreetingNoJoke(request):
 	new_message = "Hi, I'm Jokebot 1.0! I don't know any jokes yet, would you like to tell me one?"
@@ -52,10 +77,17 @@ def sendGreetingNoJoke(request):
 	return HttpResponseRedirect(reverse('jokebot:index'))
 
 def sendGreetingGeneric(request):
+	request.session['setup'] = False
+	request.session['knock_knock'] = False
 	new_message = "Hi, I'm Jokebot 1.0!\nIf you would like me to tell you a joke say 'tell me a joke'.\nIf you would like to teach me a joke say 'knock knock'."
 	m = Message(message_text=new_message, message_nametag="Jokebot")
 	m.save()
 	return HttpResponseRedirect(reverse('jokebot:index')) 
 
+def sendGreetingError(request):
+	new_message = "error"
+	m = Message(message_text=new_message, message_nametag="Jokebot")
+	m.save()
+	return HttpResponseRedirect(reverse('jokebot:index'))
 
 
