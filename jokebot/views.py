@@ -22,18 +22,30 @@ def success(request):
 	return HttpResponse("action was a success.")
 
 def generateResponse(request, Message):
-	joke_list = Joke.objects.all()
+	if(Message.message_text == "tell me a joke"):
+		return tellJoke(request)
+	else:
+		return sendGreetingGeneric(request)
+
+def tellJoke(request):
 	try:
-		joke = joke_list.get(0)
-		return tellJoke(request, joke)
+		joke_list = Joke.objects.all()
+		joke = joke_list.get(id=0)
+		new_message = "Pretend I told a great joke ;P"
+		m = Message(message_text=new_message, message_nametag="Jokebot")
+		m.save()
+		return HttpResponseRedirect(reverse('jokebot:index'))
 	except:
-		return sendGreeting(request)
+		return sendGreetingNoJoke(request)
 
-def tellJoke(request, Joke):
-	return HttpResponse("Pretend I told a great joke.")
-
-def sendGreeting(request):
+def sendGreetingNoJoke(request):
 	new_message = "Hi, I'm Jokebot 1.0! I don't know any jokes yet, would you like to tell me one?"
+	m = Message(message_text=new_message, message_nametag="Jokebot")
+	m.save()
+	return HttpResponseRedirect(reverse('jokebot:index'))
+
+def sendGreetingGeneric(request):
+	new_message = "Hi, I'm Jokebot 1.0!\nIf you would like me to tell you a joke say 'tell me a joke'.\nIf you would like to teach me a joke say 'knock knock'."
 	m = Message(message_text=new_message, message_nametag="Jokebot")
 	m.save()
 	return HttpResponseRedirect(reverse('jokebot:index')) 

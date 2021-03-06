@@ -9,7 +9,7 @@ class Joke(models.Model):
 	setup_text = models.CharField(max_length=200)
 	punchline_text = models.CharField(max_length=200)
 	def __str__(self):
-		return self.setup_text + " - " + self.punchline_texts
+		return self.setup_text + " - " + self.punchline_text
 
 class Message(models.Model):
 	message_text = models.CharField(max_length=200)
