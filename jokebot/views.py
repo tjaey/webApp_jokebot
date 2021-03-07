@@ -52,6 +52,7 @@ def tellJoke(request):
 
 def learnSetup(request, message, jokebot):
 	jokebot.setup = True
+	jokebot.new_setup = message.message_text
 	jokebot.save()
 	new_message = message.message_text
 	new_message += " who?"
@@ -63,6 +64,8 @@ def learnPunchline(request, message, jokebot):
 	jokebot.knock_knock = False
 	jokebot.setup = False
 	jokebot.save()
+	j = Joke(setup_text=jokebot.get_new_setup(), punchline_text=message.message_text)
+	j.save()
 	new_message = "Hahaha! Thank you! That was a great joke!"
 	m = Message(message_text=new_message, message_nametag="Jokebot")
 	m.save()

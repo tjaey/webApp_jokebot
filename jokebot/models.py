@@ -23,9 +23,12 @@ class Message(models.Model):
 class JokeBotAI(models.Model):
 	knock_knock = models.BooleanField(default=False)
 	setup = models.BooleanField(default=False)
+	new_setup = models.CharField(max_length=200)
 	def heard_knock_knock(self):
 		return self.knock_knock
 	def heard_setup(self):
 		return self.setup
+	def get_new_setup(self):
+		return self.new_setup
 
 
