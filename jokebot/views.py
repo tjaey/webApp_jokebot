@@ -26,25 +26,55 @@ def error(request):
 def generateResponse(request, message):
 	try:
 		jokebot = JokeBotAI.objects.get(pk=1)
-		if(jokebot.heard_setup()):
+		if(jokebot.said_setup()):
+			return tellPunchline(request, jokebot)
+		elif(jokebot.said_knock_knock()):
+			return tellSetup(request, jokebot)
+		elif(jokebot.heard_setup()):
 			return learnPunchline(request, message, jokebot)
 		elif(jokebot.heard_knock_knock()):
 			return learnSetup(request, message, jokebot)
 		elif(message.message_text == 'knock knock'):
 			return learnNewJoke(request, jokebot)
 		elif(message.message_text == "tell me a joke"):
-			return tellJoke(request)
+			return tellJoke(request, jokebot)
 		else:
 			return sendGreetingGeneric(request)
 	except:
 		return sendGreetingError(request)
 
-def tellJoke(request):
+def tellJoke(request, jokebot):
 	try:
 		joke_list = Joke.objects.all()
-		joke = joke_list.get(id=0)
-		new_message = "Pretend I told a great joke ;P"
+		joke = joke_list.get(id=1)
+		jokebot.current_joke = joke
+		jokebot.gave_knock_knock = True
+		jokebot.save()
+		new_message = "Knock knock"
 		m = Message(message_text=new_message, message_nametag="Jokebot")
+		m.save()
+		return HttpResponseRedirect(reverse('jokebot:index'))
+	except:
+		return sendGreetingNoJoke(request)
+
+def tellSetup(request, jokebot):
+	try:
+		setup = jokebot.get_current_setup()
+		jokebot.gave_setup = True
+		jokebot.save()
+		m = Message(message_text=setup, message_nametag="Jokebot")
+		m.save()
+		return HttpResponseRedirect(reverse('jokebot:index'))
+	except:
+		return sendGreetingNoJoke(request)
+
+def tellPunchline(request, jokebot):
+	try:
+		punchline = jokebot.get_current_punchline()
+		jokebot.gave_setup = False
+		jokebot.gave_knock_knock = False
+		jokebot.save()
+		m = Message(message_text=punchline, message_nametag="Jokebot")
 		m.save()
 		return HttpResponseRedirect(reverse('jokebot:index'))
 	except:
