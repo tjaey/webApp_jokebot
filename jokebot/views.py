@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Message, Greeting, Joke, JokeBotAI
+from .models import Message, Joke, JokeBotAI
 
 def index(request):
 	message_list = Message.objects.order_by('message_date')
