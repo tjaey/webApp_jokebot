@@ -1,83 +1,84 @@
-html {
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #e5e5e5;
+html, body {
   font-family: Helvetica, sans-serif;
-}
-
-
-.app-container {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 867px;
-  margin: 25px 10px;
-  height: calc(100% - 50px);
-  border: var(--border);
-  border-radius: 5px;
-  background: var(--msger-bg);
-  box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
+  background: #f5f5f5;
+  margin: 0px, auto;
+  justify-content:center;
+  align-items: center;
 }
 
 .menu {
-  display: flex;
-  width: 100%;
-  height: 50px;
-  padding: 10px;
-  background: #eee;
-  color: #666;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 50px;
+    background: #546a9b;
+    color: #e5e5e5;
+    z-index: 100;
 }
 
+.appname {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 25px;
+    font-weight: 300;
+}
 
 .chat {
-  overflow-y: auto;
-  padding: 10px;
-  list-style: none;
-  margin-top: 10px;
-  margin-bottom: 10px;
+    list-style: none;
+    background: none;
+    margin: 0;
+    padding: 0 0 50px 0;
+    margin-top: 60px;
+    margin-bottom: 15px;
+    min-height: 50px;
 }
 
 .chat li {
-    padding: 10px;
-    border: 10px;
+    padding: 0.5rem;
     overflow: hidden;
     display: flex;
 }
 
-.nametag {
-  margin-right: 10px;
-  font-weight: bold;
+.msg {
+  background: #e7e7e7;
+  min-width: 50px;
+  max-width: 90%;
+  padding: 10px;
+  border-radius: 2px;
 }
 
-.msg {
-    font-size: 0.8rem;
-    margin: 0 0 0.2rem 0;
-    color: #777;
-    background: white;
-    min-width: 50px;
-    padding: 10px;
-    border-radius: 2px;
-    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
+.nametag{
+  font-weight: bold;
+  color: #546a9b;
 }
+
+.jokebot .msg {
+    border-top-left-radius: 0px;
+    box-shadow: 1px 2px 0px #c1cbcd;
+}
+
+.you {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.you .msg {
+    border-bottom-right-radius: 0px;
+    box-shadow: 1px 2px 0px #c1cbcd;
+}
+
 
 .response {
   display: flex;
+  position: fixed;
+  width: 95%;
+  bottom: 5px;
+  left: 10px;
   padding: 10px;
-  background: #eee;
+  background: #e5e5e5;
 }
 
 .response * {
@@ -97,3 +98,14 @@ body {
   background: rgb(0, 180, 100);
   color: #fff;
 }
+
+
+
+
+
+
+
+
+
+
+

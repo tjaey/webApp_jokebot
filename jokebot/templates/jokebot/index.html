@@ -12,18 +12,23 @@
             <div class="menu">
                 <div class="appname">Jokebot 1.0</div>
             </div>
-            <div class = "chat">
-                <ol>
-                {% if message_list %}
-                    {% for message in message_list %}
-                    <li class="msgbox">
-                        <div class="nametag">{{ message.message_nametag }}</div>
-                        <div class="msg"><p>{{ message.message_text }}</p></div>
-                    </li>
+            <ol class = "chat">
+            {% if message_list %}
+                {% for message in message_list %}
+                    {% if message.message_nametag == "you" %}
+                        <li class="you">
+                            <div class=msg>
+                    {% else %}
+                        <li class="jokebot">
+                            <div class=msg>
+                                <div class="nametag">{{ message.message_nametag }}</div>
+                    {% endif %}
+                                <p>{{ message.message_text }}</p>
+                            </div>
+                        </li>
                     {% endfor %}    
-                {% endif %}
-                </ol>
-            </div>
+            {% endif %}
+            </ol>
             <form class="response" action="{% url 'jokebot:submitMessage' %}" method="post">
               {% csrf_token %}  
               <input class="textarea" type="text" name="new_message" placeholder="Type here"/>
