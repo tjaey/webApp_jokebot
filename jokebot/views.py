@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.db.models.query import QuerySet
+import random
 
 from .models import Message, Joke, JokeBotAI
 
@@ -46,7 +48,9 @@ def generateResponse(request, message):
 def tellJoke(request, jokebot):
 	try:
 		joke_list = Joke.objects.all()
-		joke = joke_list.get(id=1)
+		num = joke_list.count()
+		joke_num = random.randint(1,num)
+		joke = joke_list.get(id=joke_num)
 		jokebot.current_joke = joke
 		jokebot.gave_knock_knock = True
 		jokebot.save()
