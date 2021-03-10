@@ -23,7 +23,7 @@ class JokeBotAI(models.Model):
 	knock_knock = models.BooleanField(default=False)
 	setup = models.BooleanField(default=False)
 	new_setup = models.CharField(max_length=200)
-	current_joke = models.ForeignKey(Joke, on_delete=models.CASCADE)
+	current_joke = models.ForeignKey(Joke, on_delete=models.PROTECT)
 	gave_knock_knock = models.BooleanField(default=False)
 	gave_setup = models.BooleanField(default=False)
 	def heard_knock_knock(self):
