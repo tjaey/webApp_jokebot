@@ -27,7 +27,8 @@ def error(request):
 
 def generateResponse(request, message):
 	try:
-		jokebot = JokeBotAI.objects.get(pk=1)
+		jokebotAI = JokeBotAI.objects.all()
+		jokebot = jokebotAI[0]
 		if(jokebot.said_setup()):
 			return tellPunchline(request, jokebot)
 		elif(jokebot.said_knock_knock()):
